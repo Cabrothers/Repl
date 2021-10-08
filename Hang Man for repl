@@ -1,0 +1,67 @@
+import sys
+import os
+import time
+
+
+play_again = True
+clearConsole = lambda: os.system('cls'
+                                 if os.name in ('nt', 'dos') else 'clear')
+
+# This is my Hangman game
+
+# Author: Arnav Kakani
+welcome_message = "Welcome to ArnavKakani's hangman game! This is a two player game.\nYou will have ten chances to guess the word your friend put in.\nSee https://replit.com/@ArnavKakai"
+print(welcome_message)
+time.sleep(3)
+#the word for the game
+while play_again == True:
+    target = input('Put a word in for your friend to guess: ')
+    clearConsole()
+    tries = 10
+    guessed = ""
+    while tries > 0:
+        message = ""
+
+        #messages with blanks
+        #for unguessed characters
+        for character in target:
+            if character in guessed or character == " ":
+                message = message + character
+            else:
+                message = message + "_"
+
+        #you won
+        if message == target:
+            print("You Win!")
+            break
+
+        #Print out the message and ask for a guess.
+        #Store all guesses in the "guessed" variable.
+        print(message)
+        guess = ""
+        while guess == "":
+            guess = input("Guess a Letter: ")
+        guess = guess[0]
+        guessed = guessed + guess
+
+        #lose a try if guess is wrong
+        for guess_character in guess:
+            if guess not in target:
+                tries = tries - 1
+
+        #you lost
+        if tries <= 0:
+            print("You lose")
+
+    #the end
+    print("Thanks for playing.")
+    print("The word was: " + target + "")
+
+    play_again = input("Do you want to play again? (y/n) ")
+    if play_again == 'n':
+        play_again = False
+        print('Thank you for playing.')
+        sys.exit(0)
+    else:
+        play_again = True
+        continue
